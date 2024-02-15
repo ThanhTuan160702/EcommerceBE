@@ -3,7 +3,7 @@ const { default: mongoose } = require('mongoose')
 const dbConnect = async () => {
     try {
 
-        const conn = await mongoose.connect(process.env.MONGODB_URI)
+        const conn = await mongoose.connect(process.env.MONGODB_URL)
         if(conn.connection.readyState === 1){
             console.log('Success')
         }else{
