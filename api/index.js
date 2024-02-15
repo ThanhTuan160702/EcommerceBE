@@ -8,16 +8,12 @@ const cors = require('cors')
 
 
 const app = express()
-app.use(cors({
-    origin: "*",
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    credentials: true
-}))
+dbConnect()
 app.use(cookieParser())
 const port = process.env.PORT || 8888
 app.use(express.json()) // thằng express có thể đọc hiểu được cái data mà th client gửi lên
 app.use(express.urlencoded({extended: true}))
-dbConnect()
+app.use(cors())
 
 app.get('/',(req, res) => {
     res.send("Server On")

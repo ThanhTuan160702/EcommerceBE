@@ -126,7 +126,12 @@ const login = asyncHandle(async(req,res) => {
         //Lưu refreshToken vào database
         await User.findByIdAndUpdate(user._id, {refreshToken: newRefreshToken}, {new: true})
         //Lưu refreshToken vào cookie
-        res.cookie('refreshToken', newRefreshToken,{httpOnly: true, maxAge: 7*24*60*60*1000})
+        res.cookie('refreshToken', newRefreshToken, {
+            httpOnly: true, 
+            maxAge: 7*24*60*60*1000, // Thời gian sống của cookie, ở đây là 7 ngày tính bằng mili giây
+            sameSite: 'strict',
+            secure: process.env.NODE_ENV === 'production'
+        });
         return res.status(200).json({
             success: true,
             accessToken,
@@ -158,6 +163,7 @@ const getCurrent = asyncHandle(async(req,res) => {
 const refreshAccessToken = asyncHandle(async(req, res, )=>{
     //Lấy token từ cookie
     const cookie = req.cookies
+    console.log(cookie)
     //Check xem có token hay không
     if(!cookie && !cookie.refreshToken){
         throw new Error('No refresh Token in cookies')
