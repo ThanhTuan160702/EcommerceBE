@@ -17,7 +17,7 @@ app.use(cookieParser())
 const port = process.env.PORT || 8888
 app.use(express.json()) // thằng express có thể đọc hiểu được cái data mà th client gửi lên
 app.use(express.urlencoded({extended: true}))
-dbConnect()
+//dbConnect()
 
 app.get('/',(req, res) => {
     res.send("Server On")
