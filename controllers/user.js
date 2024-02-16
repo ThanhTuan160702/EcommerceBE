@@ -68,7 +68,7 @@ const register = asyncHandle(async(req, res)=>{
     }else{
         const token = makeToken()
         await FinalRegister.create({email, password, firstname, lastname, token})
-        const html = `Click vào link để hoàn tất quá trình đăng ký của bạn.Link này sẽ hết hạn sau 15 phút <a href=${process.env.URL_SERVER}/api/user/final-register/${token}>Click here</a>`  
+        const html = `Click vào link để hoàn tất quá trình đăng ký của bạn.Link này sẽ hết hạn sau 15 phút <a href=https://ecommerce-be-ebon.vercel.app/api/user/final-register/${token}>Click here</a>`  
         await sendMail({email, html, subject: 'Final Register'})
         return res.status(200).json({
             success: true,
@@ -81,7 +81,7 @@ const finalRegister = asyncHandle(async(req, res)=>{
     const { token } = req.params
     const token2 = await FinalRegister.findOne({token: token})
     if(!token2){
-        return res.redirect(`${process.env.CLIENT_URL}/finalregister/failed`)
+        return res.redirect(`https://ecommerce-z.vercel.app/finalregister/failed`)
     }else{
         const newUser = await User.create({
             email: token2?.email,
@@ -91,9 +91,9 @@ const finalRegister = asyncHandle(async(req, res)=>{
         })
         await FinalRegister.findByIdAndDelete(token2._id)
         if(newUser){
-            return res.redirect(`${process.env.CLIENT_URL}/finalregister/success`)
+            return res.redirect(`https://ecommerce-z.vercel.app/finalregister/success`)
         }else{
-            return res.redirect(`${process.env.CLIENT_URL}/finalregister/failed`)
+            return res.redirect(`https://ecommerce-z.vercel.app/finalregister/failed`)
         }
     }
 })
